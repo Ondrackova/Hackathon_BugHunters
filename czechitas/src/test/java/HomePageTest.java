@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.time.Instant;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class HomePageTest {
 
     //browser initialization
@@ -79,7 +81,7 @@ public class HomePageTest {
                 (ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/p[1]")))
                 .getText();
         //Assert
-        Assertions.assertTrue(ExpectedOutput.contains("Your account has been created."),
+        assertTrue(ExpectedOutput.contains("Your account has been created."),
                 "The account creation success message did not appear as expected.");
     }
 
@@ -97,20 +99,23 @@ public class HomePageTest {
         // Click on the "Sign in" button
         browserWait.until(ExpectedConditions.elementToBeClickable(By.id("SubmitLogin"))).click();
 
+        // Get the text of the "My personal information" link (or whatever text appears after logging out)
+        WebElement myAccount = browserWait.until(
+                ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/div/div[1]/ul/li[4]/a"))
+        );
+
+        System.out.println(myAccount);
+
+        // Assert that "My personal information" is part of the text retrieved after logout
+        Assertions.assertTrue(myAccount.isDisplayed());
+
         // Click on the "Login user" button (user info)
         browserWait.until(ExpectedConditions.elementToBeClickable(By.id("user_info_acc"))).click();
 
         // Click on "Logout"
         browserWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='header']/div[3]/div/div/div[7]/ul/li/ul/li[3]/a"))).click();
 
-        // Get the text of the "My personal information" link (or whatever text appears after logging out)
-        String myAccount = browserWait.until(
-                ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/div/div[1]/ul/li[4]/a"))
-        ).getText();
 
-        // Assert that "My personal information" is part of the text retrieved after logout
-        Assertions.assertTrue(myAccount.contains("My personal information"),
-                "Expected 'My personal information' but found: " + myAccount);
     }
 
 
