@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -73,46 +74,45 @@ public class HomePageTest {
                         (ExpectedConditions.elementToBeClickable
                                 (By.id("submitAccount")))
                 .click();
+
+        var ExpectedOutput = browserWait.until
+                (ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/p[1]")))
+                .getText();
+        //Assert
+        Assertions.assertTrue(ExpectedOutput.contains("Your account has been created."),
+                "The account creation success message did not appear as expected.");
     }
 
     @Test
-    void loginLogoutUser () {
-        //click on button Sign in
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.cssSelector(".hide_xs")))
-                .click();
+    void loginLogoutUser() {
+        // Click on the "Sign in" button
+        browserWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".hide_xs"))).click();
 
-        //fill in email address
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.id("email")))
-                .sendKeys("jana@seznam.cz");
+        // Fill in the email address
+        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("email"))).sendKeys("jana@seznam.cz");
 
-        //fill in Password
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("passwd")))
-                .sendKeys("Jana123");
+        // Fill in the password
+        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("passwd"))).sendKeys("Jana123");
 
-        //click on button Sign in
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("SubmitLogin")))
-                .click();
+        // Click on the "Sign in" button
+        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("SubmitLogin"))).click();
 
-        //click on button for login user
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.id("user_info_acc")))
-                .click();
+        // Click on the "Login user" button (user info)
+        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("user_info_acc"))).click();
 
-        //click on Logout
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='header']/div[3]/div/div/div[7]/ul/li/ul/li[3]/a")))
-                .click();
+        // Click on "Logout"
+        browserWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='header']/div[3]/div/div/div[7]/ul/li/ul/li[3]/a"))).click();
+
+        // Get the text of the "My personal information" link (or whatever text appears after logging out)
+        String myAccount = browserWait.until(
+                ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/div/div[1]/ul/li[4]/a"))
+        ).getText();
+
+        // Assert that "My personal information" is part of the text retrieved after logout
+        Assertions.assertTrue(myAccount.contains("My personal information"),
+                "Expected 'My personal information' but found: " + myAccount);
     }
+
 
     @Test
     void bookingBudgetCabin () {
