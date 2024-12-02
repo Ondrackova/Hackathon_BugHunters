@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -606,11 +605,25 @@ public class HomePageTest {
         Assertions.assertTrue(pomSearch.isDisplayed());
     }
 
+    @Test
+    void legalPolicies () {
+        //click find pages button
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='header']/div[3]/div/div/div[2]/button")))
+                .click();
+        //click on Legal Policies
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='menu_cont']/div/div/div[2]/ul[1]/li[6]/a")))
+                .click();
 
 
-
-
-
-
-
+        var pomLegal = browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='center_column']/div/h2")))
+                .getText();
+        //assert
+        Assertions.assertEquals("Legal", pomLegal);
+    }
 }
