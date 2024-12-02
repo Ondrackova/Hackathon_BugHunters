@@ -25,6 +25,9 @@ public class HomePageTest {
         //loading the web
         browser.get("https://datoph2024-bug-hunters.czechitas.fun/en/");
 
+        //full screen mode
+        browser.manage().window().maximize();
+
         scrolling = new Scrolling();
 
         }
@@ -136,16 +139,9 @@ public class HomePageTest {
                                 (By.xpath("//*[@id='hotelRoomsBlock']/div/div[2]/div/div[1]/div[1]/div/div[3]/a")))
                 .click();
 
-        //full screen mode
-        browser.manage().window().maximize();
+        //Switch to new tab
+        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
 
-        //scrolling to down page
-        scrolling.scrollToBottom(browser);
-
-
-        //simulations click on button
-        Actions actions = new Actions(browser);
-        actions.sendKeys(Keys.END).perform();
 
        //click on button Book now
        WebElement bookNow = browserWait.until
@@ -166,17 +162,90 @@ public class HomePageTest {
                         (By.xpath("//*[@id='layer_cart']/div[1]/div[2]/div[4]/a")))
                 .click();
 
+        //switch to new tab
+        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
+
         //click on button to Procced
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='collapse-shopping-cart']/div/div[2]/div[3]/div/a")))
+                        (By.xpath("//*[@id='collapse-shopping-cart']/div/div[2]/div[2]/div/a")))
                 .click();
+
 
         //click on button to Procced to Paynment
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='collapse-guest-info']/div/div[4]/div/a")))
+                                (By.id("opc_guestCheckout")))
                 .click();
+        //fill the login form
+        //--first name
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("customer_firstname")))
+                        .sendKeys("Jana");
+        //--last name
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("customer_lastname")))
+                .sendKeys("Nova");
+        //--email
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("email")))
+                .sendKeys("n@gmail.com");
+        //--mobil phone
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("phone_mobile")))
+                        .sendKeys("777222111");
+        //--date of birth
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("days")))
+                .sendKeys("1");
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='months']/option[2]")))
+                .click();
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("years")))
+                .sendKeys("1985");
+
+        //--address
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("address1")))
+                .sendKeys("Na Dobraku 2");
+        //--city
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("city")))
+                .sendKeys("Brno");
+        //--post code
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("postcode")))
+                .sendKeys("60200");
+        //--mobil phone
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("(//*[@id='phone_mobile'])[2]")))
+                .sendKeys("777222111");
+
+
+        //click on SAFE button
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("submitGuestAccount")))
+                .click();
+
+        //click on Proceed
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='collapse-guest-info']/div/div[4]/div/a")))
+                        .click();
+
 
         //click on checkted GDPR
         browserWait.until
@@ -195,38 +264,277 @@ public class HomePageTest {
                 (ExpectedConditions.elementToBeClickable
                         (By.id("cart_navigation")))
                 .click();
+
+        //confirm order
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='cart_navigation']/button")))
+                .click();
+
+        //pom variable for completed booking
+        WebElement completedBooking =  browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='center_column']/div/p[1]")));
+
+        //Assert
+        Assertions.assertTrue(completedBooking.isDisplayed());
     }
 
     @Test
     void bookingDeluxeApartments () {
+        // Click on the "Sign in" button
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.cssSelector(".hide_xs"))).click();
 
-        //click on button Book Now for Budget Cabin
+        // Fill in the email address
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("email"))).
+                sendKeys("jana@seznam.cz");
+
+        // Fill in the password
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("passwd"))).
+                sendKeys("Jana123");
+
+        // Click on the "Sign in" button
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("SubmitLogin"))).
+                click();
+
+        //go to home page
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("header_logo")))
+                        .click();
+
+        //click on button Book Now
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
                                 (By.xpath("//*[@id='hotelRoomsBlock']/div/div[2]/div/div[1]/div[2]/div/div[3]/a")))
                 .click();
 
+        //switch to new tab
+        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
+
         //click on button Book now
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
                                 (By.xpath("//*[@id='add_to_cart']")))
                 .click();
+        //click on button Proceed to checkout
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='layer_cart']/div[1]/div[2]/div[4]/a")))
+                .click();
+
+        //switch to new tab
+        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
+
+        //click on button to Procced
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='collapse-shopping-cart']/div/div[2]/div[2]/div/a")))
+                .click();
+
+        //click on Proceed
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='collapse-guest-info']/div/div[4]/div/a")))
+                .click();
+
+
+        //click on checkted GDPR
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("uniform-cgv")))
+                .click();
+
+        //click on pay by bank wire payment method
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='HOOK_PAYMENT']/div[1]/div/p/a")))
+                .click();
+
+        //click on button I confirm my order
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("cart_navigation")))
+                .click();
+
+        //confirm order
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='cart_navigation']/button")))
+                .click();
+
+        //pom variable for completed booking
+        WebElement completedBooking =  browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='center_column']/div/p[1]")));
+
+        //Assert
+        Assertions.assertTrue(completedBooking.isDisplayed());
     }
 
     @Test
     void bookingFullNatureExperience () {
-
-        //click on button Book Now for Budget Cabin
+        //click on button Sign in
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='hotelRoomsBlock']/div/div[2]/div/div[2]/div[1]/div/div[3]/a")))
+                                (By.cssSelector(".hide_xs")))
                 .click();
+
+        //click on field email address and fill valid email address
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath(".//*[@id='email_create']")))
+                .sendKeys(randomEmail);
+
+        //click on button Create an account
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("SubmitCreate")))
+                .click();
+        //fill in user first name
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("customer_firstname")))
+                .sendKeys("Jana");
+        //fill in user last name
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("customer_lastname")))
+                .sendKeys("Novakova");
+        //fill in password
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("passwd")))
+                .sendKeys("Jana123");
+        //click on button Register
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("submitAccount")))
+                .click();
+
+        var ExpectedOutput = browserWait.until
+                        (ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/p[1]")))
+                .getText();
+        //Assert
+        assertTrue(ExpectedOutput.contains("Your account has been created."),
+                "The account creation success message did not appear as expected.");
+
+        //go to home page
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("header_logo")))
+                .click();
+
+        //click on button Book Now
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='hotelRoomsBlock']/div/div[2]/div/div[1]/div[2]/div/div[3]/a")))
+                .click();
+
+        //switch to new tab
+        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
 
         //click on button Book now
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
                                 (By.xpath("//*[@id='add_to_cart']")))
                 .click();
+        //click on button Proceed to checkout
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='layer_cart']/div[1]/div[2]/div[4]/a")))
+                .click();
+
+        //fill the login form
+        //--mobil phone
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("phone")))
+                .sendKeys("777222111");
+
+        //--address
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("address1")))
+                .sendKeys("Na Dobraku 2");
+        //--city
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("city")))
+                .sendKeys("Brno");
+        //--post code
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("postcode")))
+                .sendKeys("60200");
+        //--mobil phone
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("(//*[@id='phone_mobile'])[2]")))
+                .sendKeys("777222111");
+
+
+        //click on SAFE button
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("submitGuestAccount")))
+                .click();
+
+        //switch to new tab
+        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
+
+        //click on button to Procced
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='collapse-shopping-cart']/div/div[2]/div[2]/div/a")))
+                .click();
+
+        //click on Proceed
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='collapse-guest-info']/div/div[4]/div/a")))
+                .click();
+
+
+        //click on checkted GDPR
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("uniform-cgv")))
+                .click();
+
+        //click on pay by bank wire payment method
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='HOOK_PAYMENT']/div[1]/div/p/a")))
+                .click();
+
+        //click on button I confirm my order
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.id("cart_navigation")))
+                .click();
+
+        //confirm order
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='cart_navigation']/button")))
+                .click();
+
+        //pom variable for completed booking
+        WebElement completedBooking =  browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='center_column']/div/p[1]")));
+
+        //Assert
+        Assertions.assertTrue(completedBooking.isDisplayed());
     }
 
     @Test
@@ -237,6 +545,9 @@ public class HomePageTest {
                         (ExpectedConditions.elementToBeClickable
                                 (By.xpath("//*[@id='hotelRoomsBlock']/div/div[2]/div/div[2]/div[2]/div/div[3]/a")))
                 .click();
+
+        //Switch to new tab
+        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
 
         //click on button Book now
         browserWait.until
