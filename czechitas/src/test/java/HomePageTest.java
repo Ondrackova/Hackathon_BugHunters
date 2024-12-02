@@ -563,7 +563,7 @@ public class HomePageTest {
         //click on Select Hotel
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
-                                (By.id("hotel_cat_name")))
+                                (By.id("id_hotel_button")))
                 .click();
 
         //click on Three Foxes Lounge
@@ -575,13 +575,22 @@ public class HomePageTest {
         //click and fill in field Check In Date
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='ui-datepicker-div']/table/tbody/tr[5]/td[6]/a")))
+                                (By.id("check_in_time")))
                 .click();
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='ui-datepicker-div']/table/tbody/tr[3]/td[3]")))
+                .click();
+
 
         //click and fill in field Check Out Date
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
-                                (By.xpath("*[@id='ui-datepicker-div']/table/tbody/tr[1]/td[7]")))
+                                (By.id("check_out_time")))
+                .click();
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='ui-datepicker-div']/table/tbody/tr[4]/td[2]")))
                 .click();
 
         //click on button  Search now
@@ -589,6 +598,12 @@ public class HomePageTest {
                         (ExpectedConditions.elementToBeClickable
                                 (By.id("search_room_submit")))
                 .click();
+
+        WebElement pomSearch = browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("category_data_cont")));
+        //assert
+        Assertions.assertTrue(pomSearch.isDisplayed());
     }
 
 
