@@ -2,16 +2,11 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
-import java.time.Instant;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HomePageTest {
@@ -30,6 +25,7 @@ public class HomePageTest {
         //loading the web
         browser.get("https://datoph2024-bug-hunters.czechitas.fun/en/");
 
+        scrolling = new Scrolling();
 
         }
 
@@ -88,21 +84,32 @@ public class HomePageTest {
     @Test
     void loginLogoutUser() {
         // Click on the "Sign in" button
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".hide_xs"))).click();
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.cssSelector(".hide_xs"))).click();
 
         // Fill in the email address
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("email"))).sendKeys("jana@seznam.cz");
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("email"))).
+                sendKeys("jana@seznam.cz");
 
         // Fill in the password
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("passwd"))).sendKeys("Jana123");
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("passwd"))).
+                sendKeys("Jana123");
 
         // Click on the "Sign in" button
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("SubmitLogin"))).click();
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("SubmitLogin"))).
+                click();
 
         // Get the text of the "My personal information" link (or whatever text appears after logging out)
         WebElement myAccount = browserWait.until(
-                ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/div/div[1]/ul/li[4]/a"))
-        );
+                ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='center_column']/div/div[1]/ul/li[4]/a")));
 
         System.out.println(myAccount);
 
@@ -110,14 +117,15 @@ public class HomePageTest {
         Assertions.assertTrue(myAccount.isDisplayed());
 
         // Click on the "Login user" button (user info)
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.id("user_info_acc"))).click();
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.id("user_info_acc"))).click();
 
         // Click on "Logout"
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='header']/div[3]/div/div/div[7]/ul/li/ul/li[3]/a"))).click();
-
-
+        browserWait.until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//*[@id='header']/div[3]/div/div/div[7]/ul/li/ul/li[3]/a")))
+                .click();
     }
-
 
     @Test
     void bookingBudgetCabin () {
@@ -128,12 +136,29 @@ public class HomePageTest {
                                 (By.xpath("//*[@id='hotelRoomsBlock']/div/div[2]/div/div[1]/div[1]/div/div[3]/a")))
                 .click();
 
+        //full screen mode
+        browser.manage().window().maximize();
 
-        //click on button Book now
-       browserWait.until
+        //scrolling to down page
+        scrolling.scrollToBottom(browser);
+
+
+        //simulations click on button
+        Actions actions = new Actions(browser);
+        actions.sendKeys(Keys.END).perform();
+
+       //click on button Book now
+       WebElement bookNow = browserWait.until
                 (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='add_to_cart']/button")))
-                .click();
+                        (By.cssSelector("button.exclusive.book_now_submit")));
+        if (bookNow.isDisplayed()) {
+            bookNow.click();
+        } else {
+            System.out.println("Element Book Now is not visible");
+        }
+
+        JavascriptExecutor js = (JavascriptExecutor) browser;
+        js.executeScript("arguments[0].scrollIntoView(true);", bookNow);
 
        //click on button Proceed to checkout
         browserWait.until

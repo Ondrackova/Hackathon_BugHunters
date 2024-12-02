@@ -5,8 +5,13 @@ import org.openqa.selenium.WebElement;
 public class Scrolling {
 
 
-    public void scrollToElement(WebDriver driver, WebElement element) {
+    //scrolling to down page
+    public void scrollToBottom(WebDriver driver) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", element);
+        try {
+            js.executeScript("window.scrollTo(0, document.documentElement.scrollHeight);");
+        } catch (Exception e) {
+            System.out.println("Scroll failed: " + e.getMessage());
+        }
     }
 }
