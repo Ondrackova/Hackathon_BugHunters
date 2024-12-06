@@ -246,7 +246,7 @@ public class HomePageTest {
                         .click();
 
 
-        //click on checkted GDPR
+        //click on checked GDPR
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.id("uniform-cgv")))
@@ -503,10 +503,43 @@ public class HomePageTest {
 
 
         var pomLegal = browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='center_column']/div/h2")))
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//*[@id='center_column']/div/h2")))
                 .getText();
         //assert
         Assertions.assertEquals("Legal", pomLegal);
     }
+
+    @Test
+    void policiesTest () {
+        browserWait.until(ExpectedConditions.elementToBeClickable
+                        (By.xpath("//a[@href='https://datoph2024-bug-hunters.czechitas.fun/en/content/1-policies']")))
+                .click();
+
+        // pom variable for assert visibility of element
+        WebElement policies = browserWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(".center_column"))).get(1);
+
+        //assert for policies section
+        Assertions.assertTrue(policies.isDisplayed());
+    }
+
+    @Test
+    void legalTerms () {
+        //click find pages button
+        browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.xpath("//a[@href='https://datoph2024-bug-hunters.czechitas.fun/en/content/3-terms-and-conditions-of-use']")))
+                        .click();
+
+        var pomLegal = browserWait.until
+                        (ExpectedConditions.elementToBeClickable
+                                (By.cssSelector(".rte")));
+
+        // pom variable for assert visibility of element
+        WebElement terms = browserWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(".center_column"))).get(1);
+
+        //assert for policies section
+        Assertions.assertTrue(terms.isDisplayed());
+    }
+
 }
