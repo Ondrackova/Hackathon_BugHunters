@@ -531,10 +531,6 @@ public class HomePageTest {
                                 (By.xpath("//a[@href='https://datoph2024-bug-hunters.czechitas.fun/en/content/3-terms-and-conditions-of-use']")))
                         .click();
 
-        var pomLegal = browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.cssSelector(".rte")));
-
         // pom variable for assert visibility of element
         WebElement terms = browserWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(".center_column"))).get(1);
 
