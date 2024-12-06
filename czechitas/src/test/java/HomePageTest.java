@@ -539,7 +539,7 @@ public class HomePageTest {
         WebElement terms = browserWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(".center_column"))).get(1);
 
         //assert for policies section
-        Assertions.assertTrue(pomLegal.isDisplayed());
+        Assertions.assertTrue(terms.isDisplayed());
     }
 
 }
