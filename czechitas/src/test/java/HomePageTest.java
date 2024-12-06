@@ -130,7 +130,7 @@ public class HomePageTest {
     }
 
     @Test
-    void bookingBudgetCabin () {
+    void bookingBudgetCabinUnregisteredUser () {
 
         //click on button Book Now for Budget Cabin
         browserWait.until
@@ -280,7 +280,7 @@ public class HomePageTest {
     }
 
     @Test
-    void bookingDeluxeApartments () {
+    void bookingDeluxeApartmentsLoginUser () {
         // Click on the "Sign in" button
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
@@ -333,7 +333,7 @@ public class HomePageTest {
         //switch to new tab
         browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
 
-        //click on button to Procced
+        //click on button to Proceed
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
                                 (By.xpath("//*[@id='collapse-shopping-cart']/div/div[2]/div[2]/div/a")))
@@ -346,7 +346,7 @@ public class HomePageTest {
                 .click();
 
 
-        //click on checkted GDPR
+        //click on checked GDPR
         browserWait.until
                         (ExpectedConditions.elementToBeClickable
                                 (By.id("uniform-cgv")))
@@ -380,51 +380,7 @@ public class HomePageTest {
     }
 
     @Test
-    void bookingFullNatureExperience () {
-        //click on button Sign in
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.cssSelector(".hide_xs")))
-                .click();
-
-        //click on field email address and fill valid email address
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.xpath(".//*[@id='email_create']")))
-                .sendKeys(randomEmail);
-
-        //click on button Create an account
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("SubmitCreate")))
-                .click();
-        //fill in user first name
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("customer_firstname")))
-                .sendKeys("Jana");
-        //fill in user last name
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("customer_lastname")))
-                .sendKeys("Novakova");
-        //fill in password
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("passwd")))
-                .sendKeys("Jana123");
-        //click on button Register
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("submitAccount")))
-                .click();
-
-        var ExpectedOutput = browserWait.until
-                        (ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='center_column']/p[1]")))
-                .getText();
-        //Assert
-        assertTrue(ExpectedOutput.contains("Your account has been created."),
-                "The account creation success message did not appear as expected.");
+    void bookingFullNatureExperienceOnlyBooking () {
 
         //go to home page
         browserWait.until
@@ -446,98 +402,19 @@ public class HomePageTest {
                         (ExpectedConditions.elementToBeClickable
                                 (By.xpath("//*[@id='add_to_cart']")))
                 .click();
-        //click on button Proceed to checkout
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='layer_cart']/div[1]/div[2]/div[4]/a")))
-                .click();
 
-        //fill the login form
-        //--mobil phone
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("phone")))
-                .sendKeys("777222111");
+        //pom variable for assertion - adding room to cart
+        var accessInCart = browserWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".icon-check")));
 
-        //--address
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("address1")))
-                .sendKeys("Na Dobraku 2");
-        //--city
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("city")))
-                .sendKeys("Brno");
-        //--post code
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("postcode")))
-                .sendKeys("60200");
-        //--mobil phone
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.xpath("(//*[@id='phone_mobile'])[2]")))
-                .sendKeys("777222111");
+        //assert
+        Assertions.assertTrue(accessInCart.isDisplayed());
 
-
-        //click on SAFE button
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("submitGuestAccount")))
-                .click();
-
-        //switch to new tab
-        browser.switchTo().window((String) browser.getWindowHandles().toArray()[1]);
-
-        //click on button to Procced
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='collapse-shopping-cart']/div/div[2]/div[2]/div/a")))
-                .click();
-
-        //click on Proceed
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='collapse-guest-info']/div/div[4]/div/a")))
-                .click();
-
-
-        //click on checkted GDPR
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("uniform-cgv")))
-                .click();
-
-        //click on pay by bank wire payment method
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='HOOK_PAYMENT']/div[1]/div/p/a")))
-                .click();
-
-        //click on button I confirm my order
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.id("cart_navigation")))
-                .click();
-
-        //confirm order
-        browserWait.until
-                        (ExpectedConditions.elementToBeClickable
-                                (By.xpath("//*[@id='cart_navigation']/button")))
-                .click();
-
-        //pom variable for completed booking
-        WebElement completedBooking =  browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='center_column']/div/p[1]")));
-
-        //Assert
-        Assertions.assertTrue(completedBooking.isDisplayed());
     }
 
+
+
     @Test
-    void bookingLuxuryInTheWoods () {
+    void bookingLuxuryInTheWoodsOnlyBooking () {
 
         //click on button Book Now for Budget Cabin
         browserWait.until
@@ -553,6 +430,12 @@ public class HomePageTest {
                         (ExpectedConditions.elementToBeClickable
                                 (By.xpath("//*[contains(text(), 'Book Now')]")))
                 .click();
+
+        //pom variable for assertion - adding room to cart
+        var accessInCart = browserWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".icon-check")));
+
+        //assert
+        Assertions.assertTrue(accessInCart.isDisplayed());
 
     }
 
